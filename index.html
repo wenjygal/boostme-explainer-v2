@@ -321,7 +321,7 @@ section{position:relative}
   background:#2B1E14;color:#B9A48A;
   padding:22px 0;font-size:.82rem;text-align:center;
 }
-.footer-links{margin-top:10px}
+.footer-links{margin-top:10px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
 .a11y-link{
   background:none;border:none;padding:4px 2px;
   color:var(--flour);font-size:.82rem;font-family:inherit;
@@ -542,7 +542,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <path d="M32 16 C32 13 35 13 36 12" stroke="#8A5A28" stroke-width="2" fill="none" stroke-linecap="round"/>
 </svg></span>
         <h3>מתכון + אופה</h3>
-        <p>אותו מאפה מושלם, כל בוקר, גם כשהעולם משתגע. ידע כתוב + שיקול דעת = תוצר עקבי ואיכותי.</p>
+        <p>אותו מאפה מושלם, כל בוקר. ידע כתוב + שיקול דעת = תוצר עקבי ואיכותי.</p>
       </div>
     </div>
   </div>
@@ -564,6 +564,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     נאפה באהבה על ידי <b>Boost Me</b> · כאב אחד, פתרון אחד, בוסט אחד
     <div class="footer-links">
       <button type="button" class="a11y-link" id="a11y-open">הצהרת נגישות</button>
+      <button type="button" class="a11y-link" id="privacy-open">הצהרת פרטיות</button>
     </div>
   </div>
 </footer>
@@ -580,6 +581,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </dialog>
 
+<dialog id="privacy-modal" class="a11y-modal" aria-labelledby="privacy-modal-title">
+  <div class="a11y-modal-body">
+    <button type="button" class="a11y-close" id="privacy-close" aria-label="סגירה">✕</button>
+    <h2 id="privacy-modal-title">הצהרת פרטיות</h2>
+    <p>האתר הזה הוא עמוד מידע בלבד, ואיננו אוספים דרכו פרטים אישיים ישירות — אין טפסים, אין הרשמה, אין תשלום.</p>
+    <p>לצורך הבנת השימוש באתר אנו משתמשים בכלי אנליטיקה (Google Analytics דרך Google Tag Manager), האוסף מידע סטטיסטי לא מזהה — כגון לחיצות על כפתורים ומידת הגלילה בעמוד. מידע זה משמש להבנת השימוש באתר ואינו כולל שם, טלפון או פרטים מזהים אחרים.</p>
+    <p>פנייה אלינו נעשית באופן וולונטרי, בלחיצה על כפתור הוואטסאפ. כל פרט שתבחר/י לשתף בשיחה (כגון שם או מספר טלפון) מועבר ישירות אלינו דרך WhatsApp, בהתאם למדיניות הפרטיות של Meta, ואינו נאסף או נשמר על ידי האתר עצמו.</p>
+    <p>לשאלות בנוגע לפרטיות: <a href="mailto:meimagineai@gmail.com">meimagineai@gmail.com</a></p>
+    <p class="a11y-updated">עודכן לאחרונה: 17.07.2026</p>
+  </div>
+</dialog>
+
 <script>
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
@@ -592,6 +605,13 @@ const a11yClose = document.getElementById('a11y-close');
 a11yOpen.addEventListener('click', () => a11yModal.showModal());
 a11yClose.addEventListener('click', () => a11yModal.close());
 a11yModal.addEventListener('click', (e) => { if (e.target === a11yModal) a11yModal.close(); });
+
+const privacyModal = document.getElementById('privacy-modal');
+const privacyOpen = document.getElementById('privacy-open');
+const privacyClose = document.getElementById('privacy-close');
+privacyOpen.addEventListener('click', () => privacyModal.showModal());
+privacyClose.addEventListener('click', () => privacyModal.close());
+privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) privacyModal.close(); });
 </script>
 </body>
 </html>
