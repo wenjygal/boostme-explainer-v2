@@ -80,6 +80,7 @@ section{position:relative}
   background-size:cover;
   background-position:center 40%;
   position:relative;
+  will-change:background-position;
 }
 .hero::before{
   content:"";position:absolute;inset:0;
@@ -404,6 +405,9 @@ section{position:relative}
   .recipe-visual{padding-bottom:140px}
   .recipe-card{right:50%;transform:translateX(50%) rotate(-2deg)}
 }
+.hero-line{display:block;overflow:hidden}
+.hero-line>span{display:block;transform:translateY(115%);transition:transform .8s cubic-bezier(.16,.84,.44,1)}
+.hero.motion-in .hero-line>span{transform:translateY(0)}
 </style>
 </head>
 <body>
@@ -611,6 +615,50 @@ const privacyClose = document.getElementById('privacy-close');
 privacyOpen.addEventListener('click', () => privacyModal.showModal());
 privacyClose.addEventListener('click', () => privacyModal.close());
 privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) privacyModal.close(); });
+
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hero = document.querySelector('.hero');
+  var h1 = hero && hero.querySelector('h1');
+
+  if (hero && h1 && !reduceMotion) {
+    var lines = [[]];
+    Array.prototype.forEach.call(h1.childNodes, function(node){
+      if (node.nodeName === 'BR') { lines.push([]); }
+      else { lines[lines.length - 1].push(node); }
+    });
+    h1.innerHTML = '';
+    lines.forEach(function(lineNodes, i){
+      if (i > 0) h1.appendChild(document.createElement('br'));
+      var mask = document.createElement('span');
+      mask.className = 'hero-line';
+      var inner = document.createElement('span');
+      inner.style.transitionDelay = (i * 0.12) + 's';
+      lineNodes.forEach(function(n){ inner.appendChild(n); });
+      mask.appendChild(inner);
+      h1.appendChild(mask);
+    });
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ hero.classList.add('motion-in'); });
+    });
+  }
+
+  if (hero && !reduceMotion) {
+    var ticking = false;
+    function updateParallax(){
+      var rect = hero.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        var shift = rect.top * -0.12;
+        hero.style.backgroundPositionY = 'calc(40% + ' + shift + 'px)';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+    }, { passive: true });
+    updateParallax();
+  }
+})();
 </script>
 </body>
 </html>
